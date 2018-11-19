@@ -5,7 +5,7 @@ use std::borrow::Cow;
 #[derive(Debug)]
 pub enum KstatNamedData {
     /// KSTAT_DATA_CHAR
-    DataChar(i8),
+    DataChar(String),
     /// KSTAT_DATA_INT32
     DataInt32(i32),
     /// KSTAT_DATA_UINT32
@@ -44,7 +44,7 @@ impl KstatNamed {
 impl<'a> From<&'a KstatNamed> for KstatNamedData {
     fn from(t: &'a KstatNamed) -> Self {
         match t.get_data_type() {
-            ffi::KSTAT_DATA_CHAR => KstatNamedData::DataChar(unsafe { (*t.inner).value_as_char() }),
+            ffi::KSTAT_DATA_CHAR => KstatNamedData::DataString(unsafe { (*t.inner).value_as_char() }),
             ffi::KSTAT_DATA_INT32 => {
                 KstatNamedData::DataInt32(unsafe { (*t.inner).value_as_i32() })
             }

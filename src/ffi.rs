@@ -74,8 +74,8 @@ impl kstat_named_t {
         let cstr = unsafe { CStr::from_ptr(self.name.as_ptr()) };
         cstr.to_string_lossy()
     }
-    pub fn value_as_char(&self) -> c_char {
-        c_char::from_le(self.value[0] as i8)
+    pub fn value_as_char(&self) -> String {
+       String::from_utf8_lossy(&self.value).to_string().replace("\u{0}","")
     }
 
     pub fn value_as_i32(&self) -> i32 {
